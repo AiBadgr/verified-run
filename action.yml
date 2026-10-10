@@ -1,5 +1,5 @@
 name: Badgr Verified Run
-description: Run a coding task remotely on Badgr, then verify it with your checks. Returns per-check results, logs and artifacts, with cost and runtime caps.
+description: Run a coding task on Badgr, then verify it with your checks, under hard cost and runtime caps.
 branding:
   icon: check-circle
   color: blue
