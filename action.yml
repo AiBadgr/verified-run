@@ -1,0 +1,55 @@
+name: Badgr Verified Run
+description: Run a coding task remotely on Badgr, then verify it with your checks. Returns per-check results, logs and artifacts, with cost and runtime caps.
+branding:
+  icon: check-circle
+  color: blue
+inputs:
+  task:
+    description: Command that performs the task, for example an agent CLI call. Optional; leave empty to only run checks.
+    required: false
+  checks:
+    description: One check command per line. Prefix a line with [name] to name it. At least one is required.
+    required: true
+  agent:
+    description: Launch mode. Name of an agent (claude, codex, cline, opencode, commandcode, playwright) to run as a Badgr agent job. When set, task is the agent's instruction and all checks are combined into the job's verification command.
+    required: false
+  max-cost:
+    description: Hard maximum job cost in USD.
+    required: true
+  max-runtime:
+    description: Hard maximum runtime in minutes.
+    required: false
+    default: "60"
+  resource:
+    description: cpu or gpu.
+    required: false
+    default: cpu
+  source:
+    description: GitHub repository URL. Defaults to the repository that triggered the workflow.
+    required: false
+  ref:
+    description: Commit SHA or ref. Defaults to the commit that triggered the workflow.
+    required: false
+  github-token:
+    description: GitHub token used to clone private repositories.
+    required: false
+outputs:
+  verified:
+    description: "true only when the job finished, the task did not fail, and every check printed a passing exit marker."
+  checks:
+    description: JSON array of per-check results with name, command, exit_code and state (passed, failed or unverified).
+  receipt:
+    description: Launch mode only. JSON receipt for the finished agent job.
+  job-id:
+    description: Badgr job ID.
+  status:
+    description: Final Badgr job status.
+  cost:
+    description: Final job cost in USD.
+  run-url:
+    description: Badgr evidence URL for the job.
+  artifact-url:
+    description: Download URL for the job's artifact archive, empty when none was produced.
+runs:
+  using: node20
+  main: index.js
